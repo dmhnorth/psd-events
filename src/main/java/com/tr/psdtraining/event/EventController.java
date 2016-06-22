@@ -1,6 +1,7 @@
 package com.tr.psdtraining.event;
 
 import com.tr.psdtraining.domain.Event;
+import com.tr.psdtraining.domain.User;
 import org.jboss.netty.logging.Slf4JLoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +29,13 @@ public class EventController {
     public String createEvent(@RequestBody Event event){
         LOGGER.info("about to POST /createEvent with event = {}", event);
         eventService.save(event);
+        return "redirect:/";
+    }
+
+    @RequestMapping(value = "/joinEvent", method = RequestMethod.POST)
+    public String joinEvent(@RequestBody Event event, User user){
+        LOGGER.info("about to POST /joinEvent with event = {}", event);
+        eventService.joinEvent(user, event);
         return "redirect:/";
     }
 }

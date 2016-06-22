@@ -2,6 +2,7 @@ package com.tr.psdtraining.event;
 
 import com.google.common.collect.ImmutableList;
 import com.tr.psdtraining.domain.Event;
+import com.tr.psdtraining.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -40,6 +41,14 @@ public class EventService {
 	@Transactional(readOnly = true)
 	public List<Event> findAll() {
 		return eventRepository.findAll();
+	}
+
+	@Transactional(readOnly = true)
+	public Event joinEvent(User user, Event event) {
+		Event eventToJoin = eventRepository.getOne(event.getId());
+		eventToJoin.addParticipant(user);
+		eventRepository.save(event);
+		return event;
 	}
 
 }
