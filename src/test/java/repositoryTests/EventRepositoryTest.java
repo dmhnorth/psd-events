@@ -14,6 +14,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -44,6 +45,17 @@ public class EventRepositoryTest {
 
         assertThat(event.getId(), is(retrievedEvent.getId()));
         assertThat(event.getOwner().getName(), is(retrievedName));
+    }
+
+    @Test
+    public void testSaveEventWithParticipants() {
+        Event event = new Event("loc", new Date(), new User("yo", "email"), "deets");
+        event.addParticipant(new User("no1", "no1@bull"));
+
+        eventRepository.save(event);
+        Event retrievedEvent = eventRepository.getOne(event.getId());
+
+        assertThat(event.getParticipants(), is(retrievedEvent.getParticipants()));
     }
 
 }
