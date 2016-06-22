@@ -1,7 +1,9 @@
 package com.tr.psdtraining.domain;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Made by kris n' dave lol, on 21/06/2016.
@@ -22,8 +24,11 @@ public class Event {
 
     private String locationDetails;
 
+    @OneToMany
+    private List<User> participants;
+
     public Event() {
-        // default contructor
+        // default constructor
     }
 
     public Event(String location, Date time, User owner, String locationDetails) {
@@ -31,6 +36,12 @@ public class Event {
         this.time = time;
         this.owner = owner;
         this.locationDetails = locationDetails;
+        this.participants = new ArrayList<>();
+
+    }
+
+    public void addParticipant(User user) {
+        participants.add(user);
     }
 
     public Long getId() {
@@ -72,4 +83,9 @@ public class Event {
     public void setTime(Date time) {
         this.time = time;
     }
+
+    public List<User> getParticipants() {
+        return participants;
+    }
+
 }
